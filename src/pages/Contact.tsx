@@ -11,7 +11,7 @@ export const Contact: React.FC = () => {
       type: "Headquarters & Retail",
       address: "17 28 St, Opposite Africana Hotel, Nakheel, Deira, Dubai",
       phone: "+971 4 227 1234",
-      mobile: "+971 58 522 5596",
+      mobile: "+971 58 505 0461",
       email: "info@classicwayllc.com",
       hours: "Sat - Thu: 8:00 AM - 8:00 PM",
       mapUrl: "https://www.google.com/maps?q=CLASSIC+WAY+HARDWARE+%26+ELECTRICAL+TRADING+L.L.C+Deira&output=embed"
@@ -21,7 +21,7 @@ export const Contact: React.FC = () => {
       type: "Logistics Hub",
       address: "Shop 10, Sheikh Ammar Bin Humaid St, Al Jerf Industrial 1, Ajman",
       phone: "+971 6 543 8343",
-      mobile: "+971 58 522 5596",
+      mobile: "+971 58 505 0461",
       email: "info@classicwayllc.com",
       hours: "Sat - Thu: 8:00 AM - 7:00 PM",
       mapUrl: "https://www.google.com/maps?q=25.436655,55.527416&output=embed"
