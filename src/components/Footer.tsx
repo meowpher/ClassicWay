@@ -10,7 +10,7 @@ export const Footer: React.FC = () => {
           <div className="col-span-1 lg:col-span-1">
             <Link to="/" className="flex items-center space-x-3 group mb-8">
               <img
-                src="/CW-logo.png"
+                src="/CW-logo-transparent.png"
                 alt="Classic Way Logo"
                 className="h-10 w-auto object-contain brightness-0 invert"
               />
@@ -46,7 +46,6 @@ export const Footer: React.FC = () => {
               <li><Link to="/" className="hover:text-brand-maroon-500 transition-colors">Home</Link></li>
               <li><Link to="/products" className="hover:text-brand-maroon-500 transition-colors">Industrial Catalogue</Link></li>
               <li><Link to="/about" className="hover:text-brand-maroon-500 transition-colors">About Us</Link></li>
-              <li><Link to="/support" className="hover:text-brand-maroon-500 transition-colors">Technical Support</Link></li>
               <li><Link to="/contact" className="hover:text-brand-maroon-500 transition-colors">Contact</Link></li>
             </ul>
           </div>

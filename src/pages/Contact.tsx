@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Clock, Send, ShieldCheck, Phone, Mail } from 'lucide-react';
+import { MapPin, Clock, Send, ShieldCheck, Phone, Mail, Check, AlertCircle } from 'lucide-react';
 
 export const Contact: React.FC = () => {
   const [activeBranch, setActiveBranch] = useState(0);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: 'Bulk Material RFQ',
+    message: ''
+  });
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   const branches = [
     {
@@ -24,9 +31,44 @@ export const Contact: React.FC = () => {
       mobile: "+971 58 505 0461",
       email: "info@classicwayllc.com",
       hours: "Sat - Thu: 8:00 AM - 7:00 PM",
-      mapUrl: "https://www.google.com/maps?q=25.436655,55.527416&output=embed"
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3603.047834127204!2d55.524821875389655!3d25.436664277557536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ef5f9001112dc01%3A0x75c656eca4e5329!2sClassic%20Way%20Hardware%20%26%20Electric%20Trading%20LLC%2C%20Branch%201!5e0!3m2!1sen!2sae!4v1780762447547!5m2!1sen!2sae"
     }
   ];
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) return;
+
+    setStatus('submitting');
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/info@classicwayllc.com", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Name: formData.name,
+          Email: formData.email,
+          "Inquiry Type": formData.subject,
+          Message: formData.message,
+          _subject: `New Technical Inquiry: ${formData.subject}`
+        })
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', subject: 'Bulk Material RFQ', message: '' });
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 5000);
+      }
+    } catch (error) {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white selection:bg-brand-maroon-800 selection:text-white flex flex-col">
@@ -45,30 +87,91 @@ export const Contact: React.FC = () => {
                </h1>
             </motion.div>
 
-            <form className="flex-grow flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="flex-grow flex flex-col gap-6" onSubmit={handleSubmit}>
                <div className="space-y-1.5 text-brand-dark">
                   <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-1 font-technical">Full Identity</label>
-                  <input type="text" placeholder="John Smith" className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-sm font-medium" />
+                  <input 
+                    type="text" 
+                    placeholder="John Smith" 
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required
+                    className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-sm font-medium" 
+                  />
                </div>
                <div className="space-y-1.5 text-brand-dark">
                   <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-1 font-technical">Corporate Email</label>
-                  <input type="email" placeholder="name@company.com" className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-sm font-medium" />
+                  <input 
+                    type="email" 
+                    placeholder="name@company.com" 
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required
+                    className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-sm font-medium" 
+                  />
                </div>
                <div className="space-y-1.5 text-brand-dark">
                   <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-1 font-technical">Inquiry Class</label>
-                  <select className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-sm font-medium appearance-none">
+                  <select 
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-sm font-medium appearance-none"
+                  >
                      <option>Bulk Material RFQ</option>
                      <option>Industrial Support</option>
                   </select>
                </div>
                <div className="space-y-1.5 text-brand-dark">
                   <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-1 font-technical">Specifications</label>
-                  <textarea rows={4} placeholder="Include part numbers or project scale..." className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-sm font-medium min-h-[110px]" />
+                  <textarea 
+                    rows={4} 
+                    placeholder="Include part numbers or project scale..." 
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    required
+                    className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-sm font-medium min-h-[110px]" 
+                  />
                </div>
                
                <div className="pt-6">
-                  <button className="w-full btn-primary !py-5 flex items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] font-black shadow-xl shadow-brand-maroon-900/10 hover:shadow-brand-maroon-900/20 active:scale-[0.98] transition-all">
-                     Transmit RFQ <Send className="w-3 h-3" />
+                  <button 
+                    type="submit"
+                    disabled={status === 'submitting'}
+                    className={`w-full btn-primary !py-5 flex items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] font-black shadow-xl transition-all active:scale-[0.98] ${
+                      status === 'submitting' 
+                        ? 'bg-slate-800 border-slate-700 pointer-events-none' 
+                        : status === 'success' 
+                        ? 'bg-emerald-600 hover:bg-emerald-700 border-emerald-600 shadow-emerald-900/10'
+                        : status === 'error'
+                        ? 'bg-rose-600 hover:bg-rose-700 border-rose-600 shadow-rose-900/10'
+                        : 'shadow-brand-maroon-900/10 hover:shadow-brand-maroon-900/20'
+                    }`}
+                  >
+                    {status === 'submitting' && (
+                      <>
+                        Transmitting...
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                          className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                        />
+                      </>
+                    )}
+                    {status === 'success' && (
+                      <>
+                        Transmitted Successfully <Check className="w-4 h-4" />
+                      </>
+                    )}
+                    {status === 'error' && (
+                      <>
+                        Transmission Failed <AlertCircle className="w-4 h-4" />
+                      </>
+                    )}
+                    {status === 'idle' && (
+                      <>
+                        Transmit RFQ <Send className="w-3 h-3" />
+                      </>
+                    )}
                   </button>
                   <div className="flex items-center justify-center gap-3 mt-4 text-[9px] font-black text-slate-400 uppercase tracking-widest font-technical">
                     <ShieldCheck className="w-3 h-3 text-brand-maroon-800" />
