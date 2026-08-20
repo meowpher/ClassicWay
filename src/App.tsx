@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
 import { Catalogue } from './pages/Catalogue';
@@ -32,6 +33,7 @@ function App() {
           <Route path="*" element={<Home />} /> {/* Fallback to Home */}
         </Route>
       </Routes>
+      <Analytics />
     </>
   );
 }
