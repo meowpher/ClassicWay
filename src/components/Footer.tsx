@@ -58,17 +58,20 @@ export const Footer: React.FC = () => {
               <li className="flex items-start group">
                 <MapPin className="w-5 h-5 text-brand-maroon-500 mr-4 mt-1 flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <a
-                  href="https://www.google.com/maps?ftid=0x3e5f43f1315cee8f:0x9208549ff253d064"
+                  href="https://www.google.com/maps/place/Classic+Way+Hardware+%26+Electric+Trading+LLC,+Branch+1/@25.4366643,55.5248219,17z"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-white leading-relaxed"
                 >
-                  17 28 St, Naif Area,<br />Deira, Dubai, UAE
+                  Shop 10, Sheikh Ammar Bin Humaid St,<br />Al Jerf Industrial 1, Ajman, UAE
                 </a>
               </li>
               <li className="flex items-center group">
                 <Phone className="w-5 h-5 text-brand-maroon-500 mr-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <a href="tel:+971585050461" className="hover:text-white font-bold">+971 58 505 0461</a>
+                <div className="flex flex-col">
+                  <a href="tel:+971585050461" className="hover:text-white font-bold">+971 58 505 0461</a>
+                  <a href="tel:+97165438343" className="hover:text-slate-300 text-xs text-slate-500">+971 6 543 8343</a>
+                </div>
               </li>
               <li className="flex items-center group">
                 <Mail className="w-5 h-5 text-brand-maroon-500 mr-4 flex-shrink-0 group-hover:scale-110 transition-transform" />

@@ -71,7 +71,7 @@ export const Home: React.FC = () => {
           animate={{ opacity: 0.2 }}
           className="hidden md:block absolute bottom-12 left-12 font-technical text-[10px] uppercase tracking-widest text-brand-dark space-y-1 z-10"
         >
-          <p>LOC: 25.2672° N, 55.3000° E</p>
+          <p>LOC: 25.4367° N, 55.5248° E</p>
           <p>EST: 2023_CORE_INDUSTRIAL</p>
           <div className="h-0.5 w-12 bg-brand-maroon-800" />
         </motion.div>
@@ -182,7 +182,7 @@ export const Home: React.FC = () => {
                 </h2>
               </div>
               <p className="text-slate-500 mb-10 leading-relaxed text-lg font-medium">
-                Strategically positioned in the industrial heart of Dubai, we bridge the gap between global manufacturing and local technical requirements. Our sourcing process ensures every component meets rigorous safety and performance benchmarks.
+                Strategically positioned in the UAE's industrial corridor, we bridge the gap between global manufacturing and local technical requirements. Our sourcing process ensures every component meets rigorous safety and performance benchmarks.
               </p>
 
               <div className="grid grid-cols-2 gap-8">

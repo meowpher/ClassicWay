@@ -113,14 +113,14 @@ export const About: React.FC = () => {
               Strategic <span className="text-brand-maroon-800">Infrastructure</span>
             </h2>
             <p className="text-slate-500 font-medium text-lg leading-relaxed">
-              Operating natively across two core branches in the UAE, providing both walk-in retail access and large-scale corporate procurement.
+              Operating from our dedicated facility in the UAE, providing high-volume inventory storage, technical consultation, and express nationwide distribution.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
              {[
-               { city: 'Dubai (Deira)', type: 'Headquarters & Retail', desc: 'Central hub for walk-in customers and direct hardware sales.' },
-               { city: 'Ajman (Al Jerf)', type: 'Logistics Hub', desc: 'Dedicated facility managing bulk orders, inventory, and express distribution.' }
+               { city: 'Ajman (Al Jerf)', type: 'Headquarters & Logistics Hub', desc: 'Central logistics facility managing high-volume inventory, technical consultation, and direct order fulfillment.' },
+               { city: 'UAE Distribution Grid', type: 'Nationwide Logistics', desc: 'Rapid dispatch and scheduled deliveries connecting engineering and contracting projects across Dubai, Abu Dhabi, and the Emirates.' }
              ].map((branch, i) => (
                 <motion.div 
                   key={i}
@@ -147,7 +147,7 @@ export const About: React.FC = () => {
                  <h3 className="text-3xl font-black text-brand-dark tracking-tighter uppercase">Client Engagement</h3>
                  <ul className="space-y-4">
                    {[
-                     "Walk-in consultation for specialized components",
+                     "Direct consultation for specialized technical components",
                      "Formal corporate quotations and RFQ processing",
                      "Tailored procurement packages for ongoing projects"
                    ].map((item, idx) => (

@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { MapPin, Clock, Send, ShieldCheck, Phone, Mail, Check, AlertCircle } from 'lucide-react';
 
 export const Contact: React.FC = () => {
-  const [activeBranch, setActiveBranch] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,28 +11,16 @@ export const Contact: React.FC = () => {
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  const branches = [
-    {
-      city: "Dubai (Deira)",
-      type: "Headquarters & Retail",
-      address: "17 28 St, Opposite Africana Hotel, Nakheel, Deira, Dubai",
-      phone: "+971 4 227 1234",
-      mobile: "+971 58 505 0461",
-      email: "info@classicwayllc.com",
-      hours: "Sat - Thu: 8:00 AM - 8:00 PM",
-      mapUrl: "https://www.google.com/maps?q=CLASSIC+WAY+HARDWARE+%26+ELECTRICAL+TRADING+L.L.C+Deira&output=embed"
-    },
-    {
-      city: "Ajman (Al Jerf)",
-      type: "Logistics Hub",
-      address: "Shop 10, Sheikh Ammar Bin Humaid St, Al Jerf Industrial 1, Ajman",
-      phone: "+971 6 543 8343",
-      mobile: "+971 58 505 0461",
-      email: "info@classicwayllc.com",
-      hours: "Sat - Thu: 8:00 AM - 7:00 PM",
-      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3603.047834127204!2d55.524821875389655!3d25.436664277557536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ef5f9001112dc01%3A0x75c656eca4e5329!2sClassic%20Way%20Hardware%20%26%20Electric%20Trading%20LLC%2C%20Branch%201!5e0!3m2!1sen!2sae!4v1780762447547!5m2!1sen!2sae"
-    }
-  ];
+  const branch = {
+    city: "Ajman (Al Jerf)",
+    type: "Headquarters & Logistics Hub",
+    address: "Shop 10, Sheikh Ammar Bin Humaid St, Al Jerf Industrial 1, Ajman, UAE",
+    phone: "+971 6 543 8343",
+    mobile: "+971 58 505 0461",
+    email: "info@classicwayllc.com",
+    hours: "Sat - Thu: 8:00 AM - 7:00 PM",
+    mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3603.047834127204!2d55.524821875389655!3d25.436664277557536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ef5f9001112dc01%3A0x75c656eca4e5329!2sClassic%20Way%20Hardware%20%26%20Electric%20Trading%20LLC%2C%20Branch%201!5e0!3m2!1sen!2sae!4v1780762447547!5m2!1sen!2sae"
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -142,7 +129,7 @@ export const Contact: React.FC = () => {
                         ? 'bg-slate-800 border-slate-700 pointer-events-none' 
                         : status === 'success' 
                         ? 'bg-emerald-600 hover:bg-emerald-700 border-emerald-600 shadow-emerald-900/10'
-                        : status === 'error'
+                        : status === 'error' 
                         ? 'bg-rose-600 hover:bg-rose-700 border-rose-600 shadow-rose-900/10'
                         : 'shadow-brand-maroon-900/10 hover:shadow-brand-maroon-900/20'
                     }`}
@@ -181,31 +168,29 @@ export const Contact: React.FC = () => {
             </form>
           </div>
 
-          {/* Right Column - Map & Branch Switching */}
+          {/* Right Column - Map & Facility Overview */}
           <div className="flex-1 flex flex-col p-6 md:p-12 bg-white gap-8 md:gap-10">
-             {/* Branch Switching */}
-             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 shrink-0">
-                {branches.map((branch, i) => (
-                   <button 
-                      key={i}
-                      onClick={() => setActiveBranch(i)}
-                      className={`p-6 rounded-[32px] border transition-all duration-500 flex flex-col items-start relative overflow-hidden group ${
-                         activeBranch === i 
-                         ? 'border-brand-maroon-800 bg-brand-dark text-white shadow-2xl shadow-brand-maroon-900/20' 
-                         : 'border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200 hover:bg-slate-100'
-                      }`}
-                   >
-                     <div className={`text-[9px] font-black uppercase tracking-widest mb-2 flex items-center gap-2 font-technical ${activeBranch === i ? 'text-brand-maroon-400' : 'text-slate-400'}`}>
-                        {branch.type}
-                        {activeBranch === i && <motion.div layoutId="active-dot" className="w-1.5 h-1.5 rounded-full bg-brand-maroon-500 shadow-[0_0_10px_#800000]" />}
-                     </div>
-                     <span className="text-xl md:text-2xl font-black uppercase tracking-tighter">{branch.city}</span>
-                     
-                     <div className={`mt-4 text-[10px] font-bold ${activeBranch === i ? 'text-slate-400' : 'text-slate-500'}`}>
-                        {branch.address.substring(0, 40)}...
-                     </div>
-                   </button>
-                ))}
+             {/* Primary Facility Header Card */}
+             <div className="p-6 md:p-8 rounded-[32px] border border-brand-maroon-800 bg-brand-dark text-white shadow-2xl shadow-brand-maroon-900/20 flex flex-col sm:flex-row sm:items-center justify-between gap-6 shrink-0">
+                <div>
+                  <div className="text-[9px] font-black uppercase tracking-widest mb-2 flex items-center gap-2 font-technical text-brand-maroon-400">
+                    {branch.type}
+                    <div className="w-1.5 h-1.5 rounded-full bg-brand-maroon-500 shadow-[0_0_10px_#800000]" />
+                  </div>
+                  <span className="text-2xl md:text-3xl font-black uppercase tracking-tighter block">{branch.city}</span>
+                  <div className="mt-2 text-xs font-bold text-slate-400">
+                    {branch.address}
+                  </div>
+                </div>
+                <a
+                  href="https://www.google.com/maps/place/Classic+Way+Hardware+%26+Electric+Trading+LLC,+Branch+1/@25.4366643,55.5248219,17z"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary !py-3.5 !px-6 text-[10px] tracking-widest uppercase self-start sm:self-auto shrink-0 flex items-center gap-2"
+                >
+                  <MapPin className="w-4 h-4" />
+                  <span>Open in Maps</span>
+                </a>
              </div>
 
              {/* Interactive Map and Core Metrics */}
@@ -213,7 +198,8 @@ export const Contact: React.FC = () => {
                 {/* Embedded Map Section */}
                 <div className="flex-[3] min-h-[300px] md:min-h-[400px] rounded-[40px] overflow-hidden border border-slate-100 shadow-2xl shadow-slate-200/50 bg-slate-100 relative group">
                     <iframe 
-                      src={branches[activeBranch].mapUrl}
+                      src={branch.mapUrl}
+                      title="Classic Way Ajman Logistics Hub Location"
                       className="w-full h-full grayscale-[0.2] group-hover:grayscale-0 transition-all duration-1000"
                       allowFullScreen
                       loading="lazy"
@@ -225,30 +211,30 @@ export const Contact: React.FC = () => {
                    <div className="space-y-4">
                       <div className="inline-flex items-center gap-3 px-4 py-2 bg-brand-maroon-50 rounded-full border border-brand-maroon-100">
                         <MapPin className="w-4 h-4 text-brand-maroon-800" />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-brand-maroon-800 font-technical">Branch Coordinates</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-brand-maroon-800 font-technical">Facility Coordinates</span>
                       </div>
-                      <p className="text-lg font-bold text-brand-dark leading-snug pl-2">{branches[activeBranch].address}</p>
+                      <p className="text-lg font-bold text-brand-dark leading-snug pl-2">{branch.address}</p>
                    </div>
                    
                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-10">
                       <div className="space-y-3 pl-2">
                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 font-technical">Communication Grid</span>
                          <div className="flex flex-col gap-2">
-                            <a href={`tel:${branches[activeBranch].phone}`} className="flex items-center gap-3 text-sm font-black text-brand-maroon-800 hover:translate-x-1 transition-transform group">
+                            <a href={`tel:${branch.phone}`} className="flex items-center gap-3 text-sm font-black text-brand-maroon-800 hover:translate-x-1 transition-transform group">
                                <Phone className="w-4 h-4 opacity-50 group-hover:opacity-100" />
-                               {branches[activeBranch].phone}
+                               {branch.phone} (Landline)
                             </a>
-                            <a href={`tel:${branches[activeBranch].mobile}`} className="flex items-center gap-3 text-sm font-black text-brand-maroon-800 hover:translate-x-1 transition-transform group">
+                            <a href={`tel:${branch.mobile}`} className="flex items-center gap-3 text-sm font-black text-brand-maroon-800 hover:translate-x-1 transition-transform group">
                                <Phone className="w-4 h-4 opacity-50 group-hover:opacity-100" />
-                               {branches[activeBranch].mobile}
+                               {branch.mobile} (Mobile / WhatsApp)
                             </a>
                          </div>
                       </div>
                       <div className="space-y-3 pl-2">
                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 font-technical">Secure Mail</span>
-                         <a href={`mailto:${branches[activeBranch].email}`} className="flex items-center gap-3 text-sm font-black text-brand-dark hover:text-brand-maroon-800 transition-colors uppercase tracking-tight group">
+                         <a href={`mailto:${branch.email}`} className="flex items-center gap-3 text-sm font-black text-brand-dark hover:text-brand-maroon-800 transition-colors uppercase tracking-tight group">
                             <Mail className="w-4 h-4 opacity-50 group-hover:opacity-100" />
-                            {branches[activeBranch].email}
+                            {branch.email}
                          </a>
                       </div>
                    </div>
@@ -260,7 +246,7 @@ export const Contact: React.FC = () => {
                          </div>
                          <div className="flex flex-col">
                             <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1 font-technical">Operating Hours</span>
-                            <span className="text-sm font-black text-brand-dark uppercase tracking-tight">{branches[activeBranch].hours}</span>
+                            <span className="text-sm font-black text-brand-dark uppercase tracking-tight">{branch.hours}</span>
                          </div>
                       </div>
                    </div>

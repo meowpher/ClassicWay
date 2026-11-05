@@ -237,7 +237,7 @@ export const SeriesModal: React.FC<SeriesModalProps> = ({ series, products, isOp
                     </div>
                  </div>
                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-center">
-                    Classic Way Engineering • Dubai
+                    Classic Way Engineering • UAE
                  </p>
               </div>
             </div>

@@ -33,4 +33,4 @@ This project is pre-configured for **Vercel**.
 - `/public`: High-fidelity industrial assets.
 
 ---
-© 2026 Classic Way Hardware & Electrical Trading L.L.C • Dubai/Ajman
+© 2026 Classic Way Hardware & Electrical Trading L.L.C • Ajman, UAE
