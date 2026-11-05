@@ -58,202 +58,204 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white selection:bg-brand-maroon-800 selection:text-white flex flex-col">
-       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
-          {/* Left Column - Form */}
-          <div className="w-full lg:w-[35%] lg:min-w-[400px] border-b lg:border-b-0 lg:border-r border-slate-100 flex flex-col p-8 md:p-12 bg-slate-50/30 overflow-y-auto">
-            <motion.div 
-               initial={{ opacity: 0, x: -20 }}
-               whileInView={{ opacity: 1, x: 0 }}
-               viewport={{ once: true }}
-               className="mb-10"
+    <div className="h-full flex-grow flex flex-col lg:flex-row bg-white selection:bg-brand-maroon-800 selection:text-white overflow-y-auto lg:overflow-hidden">
+      {/* Left Column - Compact Inquiry Form */}
+      <div className="w-full lg:w-[360px] xl:w-[410px] shrink-0 border-b lg:border-b-0 lg:border-r border-slate-100 flex flex-col justify-between p-5 sm:p-6 lg:p-7 xl:p-8 bg-slate-50/40">
+        <div>
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4"
+          >
+            <span className="text-[9px] font-black uppercase tracking-[0.25em] text-brand-maroon-800 bg-brand-maroon-50 px-3 py-1 rounded-full border border-brand-maroon-100 inline-block font-technical">
+              Contact Us
+            </span>
+            <h1 className="text-2xl sm:text-3xl xl:text-4xl font-black text-brand-dark tracking-tighter mt-2 leading-none uppercase">
+              Technical Inquiry
+            </h1>
+          </motion.div>
+
+          <form className="flex flex-col gap-3 sm:gap-3.5" onSubmit={handleSubmit}>
+            <div className="space-y-1 text-brand-dark">
+              <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 font-technical">Full Identity</label>
+              <input 
+                type="text" 
+                placeholder="John Smith" 
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required
+                className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-xs font-medium" 
+              />
+            </div>
+            
+            <div className="space-y-1 text-brand-dark">
+              <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 font-technical">Corporate Email</label>
+              <input 
+                type="email" 
+                placeholder="name@company.com" 
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
+                className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-xs font-medium" 
+              />
+            </div>
+
+            <div className="space-y-1 text-brand-dark">
+              <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 font-technical">Inquiry Class</label>
+              <select 
+                value={formData.subject}
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-xs font-medium appearance-none"
+              >
+                <option>Bulk Material RFQ</option>
+                <option>Industrial Support</option>
+              </select>
+            </div>
+
+            <div className="space-y-1 text-brand-dark">
+              <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 font-technical">Specifications</label>
+              <textarea 
+                rows={3} 
+                placeholder="Part numbers or project scale..." 
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                required
+                className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-xs font-medium min-h-[70px] xl:min-h-[85px] resize-none" 
+              />
+            </div>
+
+            <button 
+              type="submit"
+              disabled={status === 'submitting'}
+              className={`w-full btn-primary !py-3.5 flex items-center justify-center gap-2.5 text-[11px] uppercase tracking-[0.2em] font-black shadow-lg transition-all active:scale-[0.98] ${
+                status === 'submitting' 
+                  ? 'bg-slate-800 border-slate-700 pointer-events-none' 
+                  : status === 'success' 
+                  ? 'bg-emerald-600 hover:bg-emerald-700 border-emerald-600'
+                  : status === 'error' 
+                  ? 'bg-rose-600 hover:bg-rose-700 border-rose-600'
+                  : 'shadow-brand-maroon-900/10 hover:shadow-brand-maroon-900/20'
+              }`}
             >
-               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-maroon-800 bg-brand-maroon-50 px-3 py-1 rounded-full border border-brand-maroon-100">Contact Us</span>
-               <h1 className="text-4xl md:text-5xl font-black text-brand-dark tracking-tighter mt-4 leading-tight uppercase">
-                  Technical <br/> Inquiry
-               </h1>
-            </motion.div>
+              {status === 'submitting' && (
+                <>
+                  Transmitting...
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                    className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full"
+                  />
+                </>
+              )}
+              {status === 'success' && (
+                <>
+                  Transmitted Successfully <Check className="w-3.5 h-3.5" />
+                </>
+              )}
+              {status === 'error' && (
+                <>
+                  Transmission Failed <AlertCircle className="w-3.5 h-3.5" />
+                </>
+              )}
+              {status === 'idle' && (
+                <>
+                  Transmit RFQ <Send className="w-3 h-3" />
+                </>
+              )}
+            </button>
+          </form>
+        </div>
 
-            <form className="flex-grow flex flex-col gap-6" onSubmit={handleSubmit}>
-               <div className="space-y-1.5 text-brand-dark">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-1 font-technical">Full Identity</label>
-                  <input 
-                    type="text" 
-                    placeholder="John Smith" 
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
-                    className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-sm font-medium" 
-                  />
-               </div>
-               <div className="space-y-1.5 text-brand-dark">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-1 font-technical">Corporate Email</label>
-                  <input 
-                    type="email" 
-                    placeholder="name@company.com" 
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    required
-                    className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-sm font-medium" 
-                  />
-               </div>
-               <div className="space-y-1.5 text-brand-dark">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-1 font-technical">Inquiry Class</label>
-                  <select 
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-sm font-medium appearance-none"
-                  >
-                     <option>Bulk Material RFQ</option>
-                     <option>Industrial Support</option>
-                  </select>
-               </div>
-               <div className="space-y-1.5 text-brand-dark">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-1 font-technical">Specifications</label>
-                  <textarea 
-                    rows={4} 
-                    placeholder="Include part numbers or project scale..." 
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    required
-                    className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-maroon-800/10 focus:border-brand-maroon-800 transition-all text-sm font-medium min-h-[110px]" 
-                  />
-               </div>
-               
-               <div className="pt-6">
-                  <button 
-                    type="submit"
-                    disabled={status === 'submitting'}
-                    className={`w-full btn-primary !py-5 flex items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] font-black shadow-xl transition-all active:scale-[0.98] ${
-                      status === 'submitting' 
-                        ? 'bg-slate-800 border-slate-700 pointer-events-none' 
-                        : status === 'success' 
-                        ? 'bg-emerald-600 hover:bg-emerald-700 border-emerald-600 shadow-emerald-900/10'
-                        : status === 'error' 
-                        ? 'bg-rose-600 hover:bg-rose-700 border-rose-600 shadow-rose-900/10'
-                        : 'shadow-brand-maroon-900/10 hover:shadow-brand-maroon-900/20'
-                    }`}
-                  >
-                    {status === 'submitting' && (
-                      <>
-                        Transmitting...
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-                          className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
-                        />
-                      </>
-                    )}
-                    {status === 'success' && (
-                      <>
-                        Transmitted Successfully <Check className="w-4 h-4" />
-                      </>
-                    )}
-                    {status === 'error' && (
-                      <>
-                        Transmission Failed <AlertCircle className="w-4 h-4" />
-                      </>
-                    )}
-                    {status === 'idle' && (
-                      <>
-                        Transmit RFQ <Send className="w-3 h-3" />
-                      </>
-                    )}
-                  </button>
-                  <div className="flex items-center justify-center gap-3 mt-4 text-[9px] font-black text-slate-400 uppercase tracking-widest font-technical">
-                    <ShieldCheck className="w-3 h-3 text-brand-maroon-800" />
-                    <span>Secure End-to-End Transmission</span>
-                  </div>
-               </div>
-            </form>
+        <div className="flex items-center justify-center gap-2 pt-3 text-[9px] font-black text-slate-400 uppercase tracking-widest font-technical">
+          <ShieldCheck className="w-3.5 h-3.5 text-brand-maroon-800" />
+          <span>Secure End-to-End Transmission</span>
+        </div>
+      </div>
+
+      {/* Right Column - Facility Overview & Interactive Map */}
+      <div className="flex-1 flex flex-col p-4 sm:p-6 lg:p-7 xl:p-8 bg-white gap-4 lg:gap-5 justify-between overflow-hidden">
+        {/* Sleek Primary Facility Header Card */}
+        <div className="p-4 sm:p-5 xl:p-6 rounded-2xl xl:rounded-[28px] border border-brand-maroon-800 bg-brand-dark text-white shadow-xl shadow-brand-maroon-900/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
+          <div>
+            <div className="text-[9px] font-black uppercase tracking-widest mb-1 flex items-center gap-2 font-technical text-brand-maroon-400">
+              {branch.type}
+              <div className="w-1.5 h-1.5 rounded-full bg-brand-maroon-500 shadow-[0_0_10px_#800000]" />
+            </div>
+            <span className="text-xl sm:text-2xl xl:text-3xl font-black uppercase tracking-tight block leading-tight">
+              {branch.city}
+            </span>
+            <div className="mt-1 text-xs text-slate-400 font-medium line-clamp-1">
+              {branch.address}
+            </div>
           </div>
+          <a
+            href="https://www.google.com/maps/place/Classic+Way+Hardware+%26+Electric+Trading+LLC,+Branch+1/@25.4366643,55.5248219,17z"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary !py-2.5 !px-5 text-[10px] tracking-widest uppercase self-start sm:self-auto shrink-0 flex items-center gap-2"
+          >
+            <MapPin className="w-3.5 h-3.5" />
+            <span>Open in Maps</span>
+          </a>
+        </div>
 
-          {/* Right Column - Map & Facility Overview */}
-          <div className="flex-1 flex flex-col p-6 md:p-12 bg-white gap-8 md:gap-10">
-             {/* Primary Facility Header Card */}
-             <div className="p-6 md:p-8 rounded-[32px] border border-brand-maroon-800 bg-brand-dark text-white shadow-2xl shadow-brand-maroon-900/20 flex flex-col sm:flex-row sm:items-center justify-between gap-6 shrink-0">
-                <div>
-                  <div className="text-[9px] font-black uppercase tracking-widest mb-2 flex items-center gap-2 font-technical text-brand-maroon-400">
-                    {branch.type}
-                    <div className="w-1.5 h-1.5 rounded-full bg-brand-maroon-500 shadow-[0_0_10px_#800000]" />
-                  </div>
-                  <span className="text-2xl md:text-3xl font-black uppercase tracking-tighter block">{branch.city}</span>
-                  <div className="mt-2 text-xs font-bold text-slate-400">
-                    {branch.address}
-                  </div>
-                </div>
-                <a
-                  href="https://www.google.com/maps/place/Classic+Way+Hardware+%26+Electric+Trading+LLC,+Branch+1/@25.4366643,55.5248219,17z"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary !py-3.5 !px-6 text-[10px] tracking-widest uppercase self-start sm:self-auto shrink-0 flex items-center gap-2"
-                >
-                  <MapPin className="w-4 h-4" />
-                  <span>Open in Maps</span>
+        {/* Map & Facility Coordinates Split */}
+        <div className="flex-1 min-h-[260px] flex flex-col md:flex-row gap-4 xl:gap-6 overflow-hidden">
+          {/* Embedded Map */}
+          <div className="flex-1 h-full min-h-[200px] rounded-2xl xl:rounded-[28px] overflow-hidden border border-slate-100 shadow-md bg-slate-100 relative group">
+            <iframe 
+              src={branch.mapUrl}
+              title="Classic Way Ajman Logistics Hub Location"
+              className="w-full h-full grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+          
+          {/* Facility Details Panel */}
+          <div className="w-full md:w-[280px] xl:w-[320px] shrink-0 flex flex-col justify-between gap-3 bg-slate-50/80 border border-slate-100 rounded-2xl xl:rounded-[28px] p-4 xl:p-6">
+            <div className="space-y-1.5">
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-brand-maroon-50 rounded-full border border-brand-maroon-100">
+                <MapPin className="w-3 h-3 text-brand-maroon-800" />
+                <span className="text-[9px] font-black uppercase tracking-widest text-brand-maroon-800 font-technical">Facility Coordinates</span>
+              </div>
+              <p className="text-xs xl:text-sm font-bold text-brand-dark leading-snug">{branch.address}</p>
+            </div>
+            
+            <div className="space-y-1.5">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 font-technical block">Communication Grid</span>
+              <div className="flex flex-col gap-1">
+                <a href={`tel:${branch.phone}`} className="flex items-center gap-2 text-xs font-black text-brand-maroon-800 hover:translate-x-0.5 transition-transform">
+                  <Phone className="w-3.5 h-3.5 opacity-60" />
+                  {branch.phone} <span className="text-[10px] text-slate-400 font-normal">(Landline)</span>
                 </a>
-             </div>
+                <a href={`tel:${branch.mobile}`} className="flex items-center gap-2 text-xs font-black text-brand-maroon-800 hover:translate-x-0.5 transition-transform">
+                  <Phone className="w-3.5 h-3.5 opacity-60" />
+                  {branch.mobile} <span className="text-[10px] text-slate-400 font-normal">(WhatsApp)</span>
+                </a>
+              </div>
+            </div>
 
-             {/* Interactive Map and Core Metrics */}
-             <div className="flex-1 flex flex-col xl:flex-row gap-10">
-                {/* Embedded Map Section */}
-                <div className="flex-[3] min-h-[300px] md:min-h-[400px] rounded-[40px] overflow-hidden border border-slate-100 shadow-2xl shadow-slate-200/50 bg-slate-100 relative group">
-                    <iframe 
-                      src={branch.mapUrl}
-                      title="Classic Way Ajman Logistics Hub Location"
-                      className="w-full h-full grayscale-[0.2] group-hover:grayscale-0 transition-all duration-1000"
-                      allowFullScreen
-                      loading="lazy"
-                    />
-                 </div>
-                
-                {/* Dynamic Branch Metrics */}
-                <div className="flex-[2] flex flex-col justify-center space-y-10 py-4">
-                   <div className="space-y-4">
-                      <div className="inline-flex items-center gap-3 px-4 py-2 bg-brand-maroon-50 rounded-full border border-brand-maroon-100">
-                        <MapPin className="w-4 h-4 text-brand-maroon-800" />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-brand-maroon-800 font-technical">Facility Coordinates</span>
-                      </div>
-                      <p className="text-lg font-bold text-brand-dark leading-snug pl-2">{branch.address}</p>
-                   </div>
-                   
-                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-10">
-                      <div className="space-y-3 pl-2">
-                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 font-technical">Communication Grid</span>
-                         <div className="flex flex-col gap-2">
-                            <a href={`tel:${branch.phone}`} className="flex items-center gap-3 text-sm font-black text-brand-maroon-800 hover:translate-x-1 transition-transform group">
-                               <Phone className="w-4 h-4 opacity-50 group-hover:opacity-100" />
-                               {branch.phone} (Landline)
-                            </a>
-                            <a href={`tel:${branch.mobile}`} className="flex items-center gap-3 text-sm font-black text-brand-maroon-800 hover:translate-x-1 transition-transform group">
-                               <Phone className="w-4 h-4 opacity-50 group-hover:opacity-100" />
-                               {branch.mobile} (Mobile / WhatsApp)
-                            </a>
-                         </div>
-                      </div>
-                      <div className="space-y-3 pl-2">
-                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 font-technical">Secure Mail</span>
-                         <a href={`mailto:${branch.email}`} className="flex items-center gap-3 text-sm font-black text-brand-dark hover:text-brand-maroon-800 transition-colors uppercase tracking-tight group">
-                            <Mail className="w-4 h-4 opacity-50 group-hover:opacity-100" />
-                            {branch.email}
-                         </a>
-                      </div>
-                   </div>
+            <div className="space-y-1">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 font-technical block">Secure Mail</span>
+              <a href={`mailto:${branch.email}`} className="flex items-center gap-2 text-xs font-black text-brand-dark hover:text-brand-maroon-800 transition-colors uppercase tracking-tight">
+                <Mail className="w-3.5 h-3.5 opacity-60" />
+                {branch.email}
+              </a>
+            </div>
 
-                   <div className="pt-8 border-t border-slate-100 pl-2">
-                      <div className="flex items-center gap-4">
-                         <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100">
-                            <Clock className="w-5 h-5 text-brand-maroon-500" />
-                         </div>
-                         <div className="flex flex-col">
-                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1 font-technical">Operating Hours</span>
-                            <span className="text-sm font-black text-brand-dark uppercase tracking-tight">{branch.hours}</span>
-                         </div>
-                      </div>
-                   </div>
-                </div>
-             </div>
+            <div className="pt-2 border-t border-slate-200/60 flex items-center gap-3">
+              <div className="w-9 h-9 bg-white rounded-xl flex items-center justify-center border border-slate-100 shadow-sm shrink-0">
+                <Clock className="w-4 h-4 text-brand-maroon-500" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none mb-0.5 font-technical">Operating Hours</span>
+                <span className="text-xs font-black text-brand-dark uppercase tracking-tight">{branch.hours}</span>
+              </div>
+            </div>
           </div>
-       </div>
+        </div>
+      </div>
     </div>
   );
 };
